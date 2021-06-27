@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    {% load static %}
+    {% load bootstrap4 %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CNAB Bycoders</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'home/images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'home/images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'home/images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'home/images/favicon/manifest.json' %}">
+    <link rel="mask-icon" href="{% static 'home/images/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+    <link href="{% static 'home/css/material-dashboard.css' %}" rel="stylesheet"/>
+    <link href="{% static 'home/css/datail-control.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+          crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108176176-4"></script>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/searchbuilder/1.0.0/css/searchBuilder.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/searchpanes/1.2.0/css/searchPanes.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <!-- THIS LINE -->
+    <script src="//code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="{% static 'home/js/plugins/bootstrap-notify.js' %}"></script>
+</head>
+
+<body>
+<div class="wrapper ">
+    <div class="sidebar bg-dark" data-color="purple" data-background-color="white">
+        <div class="logo bg-dark">
+            <a class="simple-text logo-normal bg-dark" href="/">
+                <img src="{% static 'home/img/logo_bycoders_.e8adf476.svg'%}" class="img-responsive center-block"
+                     width="100">
+            </a>
+            <div class="text-center">
+                <b>{{request.user.usuario}}</b>
+            </div>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/transactions/upload">
+                        <i class="material-icons" style="color:green;">file_upload</i>
+                        <p style="color:green;"> Upload File
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/transactions/list">
+                        <i class="material-icons" style="color:green;">list</i>
+                        <p style="color:green;"> List
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" data-toggle="collapse" href="#comboApi">
+                        <i class="material-icons" style="color:green;">perm_identity</i>
+                         <p style="color:green;"> API
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse" id="comboApi">
+                        <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/transactions/api/list">
+                                    <i class="material-icons" style="color:green">list</i>
+                                     <p style="color:green;">Lista</p>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link "
+                                   href="/transactions/api/balance/">
+                                    <i class="material-icons" style="color:green;">attach_money</i>
+                                    <p style="color:green;">Balanço</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="/logout">
+                        <i class="material-icons" style="color:#f44336;">power_settings_new</i>
+                        <p style="color:red">Sair</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="nav navbar navbar-default navbar-static-top" role="navigation" style="background:#019837">
+            <div class="container">
+                <div class="nav navbar-text col-md-4" style="color:white;background:transparent;">
+
+                </div>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top bg-dark">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                        <h4 style="color:white;"><b>Olá, {{request.user.get_full_name}}</b></h4>
+                </div>
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                </button>
+            </div>
+        </nav>
+        <div class="content" style="margin-top:15px;">
+            {% block content %}
+            {% block path %}
+            {% endblock %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+    $(document).ready(function() {
+
+        {% if messages %}
+           {% for message in messages %}
+                $.notify({
+                    icon: "notifications",
+                    message: "{{message}}"
+                }, {
+                    type: "{{message.tags}}",
+                    timer: 3000,
+                    placement: {
+                        from: 'top',
+                        align: 'center'
+                    }
+                });
+           {% endfor %}
+        {% endif %}
+    });
+</script>
+</html>

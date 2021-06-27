@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block content  %}
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header bg-dark">
+                  <div class="card-icon">
+                    <i class="material-icons" style="color:green">content_copy</i>
+                  </div>
+                  <h4 class="card-title" style="color:green">Lista de Transações</h4>
+                  <p class="card-category" style="color:green"> transações</p>
+                </div>
+                <div class="card-body">
+                  <div class="card-content table-responsive">
+                    <table id="tabletransacoes" class="table table-striped table-hover datatables">
+                      <thead class=" text-primary">
+                        <tr>
+                            <th></th>
+                            <th>nome</th>
+                            <th>balance</th>
+                            <th>transactions</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+  <script src="//code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+function format ( d ) {
+    // `d` is the original data object for the row
+    var trs = ''
+    for (transaction in d.transactions) {
+        var n1 = parseInt(transaction),
+            n2 = parseInt('1'),
+            index = n1 + n2;
+        trs = trs + '<tr>'+
+            '<td>' + index + ': </td>'+
+            '<td>'+d.transactions[transaction]+'</td>'+
+        '</tr>'
+        }
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' + trs + '</table>';
+}
+        $(document).ready(function() {
+           var table = $('#tabletransacoes').DataTable({
+                'language': {
+                    "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+                },
+                'serverSide': true,
+                'ajax': {
+                'url': '/transactions/api/balance/?format=datatables',
+                'type': 'GET',
+                'beforeSend': function(xhr) {
+                xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token|escapejs }}');
+                }
+                },
+                'columns': [
+                            {
+                            "className":      'details-control',
+                            "orderable":      false,
+                            "data":           null,
+                            "defaultContent": ''
+                            },
+                    {'data': 'nome', name : 'nome', 'searchable': true, 'orderable': false},
+                    {'data': 'balance', name : 'balance', 'searchable': false, 'orderable': false},
+                    {'data': 'transactions', name : 'transactions', 'searchable': false, 'orderable': false},
+                ],
+            });
+    // Add event listener for opening and closing details
+    $('#tabletransacoes tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
+            // Get the column API object
+        var column = table.column(3);
+
+        // Toggle the visibility
+        column.visible( ! column.visible() );
+} );
+    </script>
+{% endblock %}
