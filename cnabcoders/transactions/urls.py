@@ -1,4 +1,3 @@
-from django.urls import path, include
 from . import views
 from django.urls import path, include
 from rest_framework import routers
@@ -12,7 +11,6 @@ router.register(r'balance', StoreBalanceViewSet)
 
 urlpatterns = [
     path('upload', views.upload, name='upload'),
-    path('list', views.list, name='list'),
+    path('list/', views.list, name='list'),
     path('api/', include(router.urls)),
-    path('secret', views.secret_page, name='secret'),
     ]
