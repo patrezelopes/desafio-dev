@@ -1,3 +1,107 @@
+#get repository
+git clone https://github.com/patrezelopes/desafio-dev.git
+
+# create containers web e db
+cd ./cnabcoders
+docker-compose up --build -d
+run web python manage.py shell
+
+#Access and upload transactions
+[click login](http://127.0.0.1:8000)
+usuario teste, password teste
+
+You are redirect to [upload link](http://127.0.0.1:8000/transactions/upload)
+choose file
+Upload file CNAB.txt
+
+#List transactions
+Access [list link](http://127.0.0.1:8000/transactions/list) in left bar
+
+<p>In this part, it will showing the Stores and your self Balance. 
+Click on plus button ("+") to showing Store transactions</p>
+
+#Down containers web e db
+docker-compose down
+
+
+#Register a new application
+Access [link register](http://127.0.0.1:8000/authenticate/register/) and register application with this values:
+
+|  Application fields|  |
+| --- | --- 
+| name |bycoders_auth
+|client_id|FMWr3BkTUuYQRdP2gAVmj1a7DdnvOGg25apiHgkb
+|client_secret|APwMBjwNmQaSDza6iHzNhZvraSmWl4GYpAUdrbR0gKB2aQ675Qnd6t7zSGvrEXErfkpjThEPcyjzhl8vP5CZJ0L48T36AZVkfsrrTbYB0w9WDdpKDUKwVmzNzAoUzoKl
+|client_type | confidential
+|authorization_grant_type | authorization_grant_type
+|redirect_uris | http://127.0.0.1:8000/
+|algorithm | No OIDC support
+
+endpoint:
+
+ [transactions list](http://127.0.0.1:8000/transactions/api/list/)
+ ```
+ [
+    {
+        "url": "http://127.0.0.1:8000/transactions/api/list/1/",
+        "date": "2019-03-01T15:34:53Z",
+        "type": "3",
+        "value": 1420.0,
+        "cpf": "09620676017",
+        "card": "4753****3153",
+        "store": "http://127.0.0.1:8000/transactions/api/balance/1/"
+    },
+    {
+        "url": "http://127.0.0.1:8000/transactions/api/list/2/",
+        "date": "2019-03-01T14:56:07Z",
+        "type": "5",
+        "value": 1320.0,
+        "cpf": "55641815063",
+        "card": "3123****7687",
+        "store": "http://127.0.0.1:8000/transactions/api/balance/2/"
+    },
+ ...
+]
+```
+
+[Balance Store's](http://127.0.0.1:8000/transactions/api/balance/)
+```
+[
+    {
+        "nome": "BAR DO JOÃO       ",
+        "balance": -1020.0,
+        "transactions": [
+            "R$ -14.20 - Financiamento - 2019-03-01 at 15:34:53",
+            "R$ -11.20 - Boleto - 2019-03-01 at 23:42:34",
+            "R$ 15.20 - Débito - 2019-03-01 at 23:30:00"
+        ]
+    },
+    {
+        "nome": "LOJA DO Ó - MATRIZ",
+        "balance": 2300.0,
+        "transactions": [
+            "R$ 13.20 - Recebimento Empréstimo - 2019-03-01 at 14:56:07",
+            "R$ 20.00 - Débito - 2019-03-01 at 09:00:02",
+            "R$ -10.20 - Aluguel - 2019-03-01 at 00:00:00"
+        ]
+    },
+...
+]
+```
+curl testing
+
+curl -X POST http://127.0.0.1:8000/authenticate/token/ -H "content-type: application/x-www-form-urlencoded" -d "grant_type=password&client_id=FMWr3BkTUuYQRdP2gAVmj1a7DdnvOGg25apiHgkb&client_secret=APwMBjwNmQaSDza6iHzNhZvraSmWl4GYpAUdrbR0gKB2aQ675Qnd6t7zSGvrEXErfkpjThEPcyjzhl8vP5CZJ0L48T36AZVkfsrrTbYB0w9WDdpKDUKwVmzNzAoUzoKl&username=teste&password=teste
+curl --request GET \
+  --url http://127.0.0.1:8000/transactions/list \
+  --header 'Authorization: Bearer <token>' \
+  --cookie csrftoken=<token>
+  
+curl --request GET \
+  --url http://127.0.0.1:8000/transactions/api/balance/ \
+  --header 'Authorization: Bearer JHwHHiRCxLp1FZfyrvDr0aOC1FhufL' \
+  --cookie csrftoken=67MlRCgIp9RE6HRwDlFjw3yhzJfcMlgP0DI7RUZCvcpkgmGRMj4AmTXxMDt7LwSf
+
+
 # Desafio programação - para vaga desenvolvedor
 
 Por favor leiam este documento do começo ao fim, com muita atenção.
