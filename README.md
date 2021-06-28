@@ -3,6 +3,7 @@ git clone https://github.com/patrezelopes/desafio-dev.git
 
 # create containers web e db
 cd ./desafio-dev/cnabcoders
+
 docker-compose up --build -d
 
 # Access and upload transactions
