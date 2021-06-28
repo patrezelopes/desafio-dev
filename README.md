@@ -1,31 +1,19 @@
-#get repository
+# get repository
 git clone https://github.com/patrezelopes/desafio-dev.git
 
 # create containers web e db
-cd ./cnabcoders
+cd ./desafio-dev/cnabcoders
 docker-compose up --build -d
-run web python manage.py shell
 
-#Access and upload transactions
+# Access and upload transactions
+if you access from ip, replace 127.0.0.1 to <your_ip> in all this document
+
 [click login](http://127.0.0.1:8000)
+
 usuario teste, password teste
 
-You are redirect to [upload link](http://127.0.0.1:8000/transactions/upload)
-choose file
-Upload file CNAB.txt
-
-#List transactions
-Access [list link](http://127.0.0.1:8000/transactions/list) in left bar
-
-<p>In this part, it will showing the Stores and your self Balance. 
-Click on plus button ("+") to showing Store transactions</p>
-
-#Down containers web e db
-docker-compose down
-
-
-#Register a new application
-Access [link register](http://127.0.0.1:8000/authenticate/register/) and register application with this values:
+# Register a new application
+Access [link register](http://127.0.0.1:8000/authenticate/applications/register/) and register application with this values:
 
 |  Application fields|  |
 | --- | --- 
@@ -36,6 +24,17 @@ Access [link register](http://127.0.0.1:8000/authenticate/register/) and registe
 |authorization_grant_type | authorization_grant_type
 |redirect_uris | http://127.0.0.1:8000/
 |algorithm | No OIDC support
+
+You are redirect to [upload link](http://127.0.0.1:8000/transactions/upload)
+choose file
+Upload file CNAB.txt
+
+# List transactions
+Access [list link](http://127.0.0.1:8000/transactions/list) in left bar
+
+In this part, it will showing the Stores and your self Balance. 
+Click on plus button ("+") to showing Store transactions
+
 
 endpoint:
 
@@ -100,6 +99,13 @@ curl --request GET \
   --url http://127.0.0.1:8000/transactions/api/balance/ \
   --header 'Authorization: Bearer JHwHHiRCxLp1FZfyrvDr0aOC1FhufL' \
   --cookie csrftoken=67MlRCgIp9RE6HRwDlFjw3yhzJfcMlgP0DI7RUZCvcpkgmGRMj4AmTXxMDt7LwSf
+
+**for more**
+# Run django shell
+run web python manage.py shell
+
+# Down containers web e db
+docker-compose down
 
 
 # Desafio programação - para vaga desenvolvedor

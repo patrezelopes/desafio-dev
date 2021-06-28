@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 
 class Store(models.Model):
@@ -28,6 +30,12 @@ class Transaction(models.Model):
 
     def transaction_date(self):
         return format(self.date, '%Y-%m-%d at %H:%M:%S')
+
+    def card_isvalid(self):
+        if re.fullmatch(r'[0-9][0-9][0-9][0-9]\*\*\*\*[0-9][0-9][0-9][0-9]', self.card):
+            return True
+        else:
+            return False
 
     def __str__(self):
         type_dic = {

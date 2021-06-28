@@ -25,4 +25,6 @@ class StoreBalanceViewSet(viewsets.ModelViewSet):
         nome = self.request.GET.get('search[value]')
         if nome:
             self.queryset = self.queryset.filter(nome__icontains=nome)
+        else:
+            self.queryset
         return self.queryset

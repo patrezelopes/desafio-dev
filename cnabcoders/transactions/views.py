@@ -25,15 +25,20 @@ def upload(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             upload = request.FILES['file']
-            messages = cnab_upload_file(request, upload)
-            return HttpResponseRedirect('/transactions/upload', {'messages': messages})
+            try:
+                content = upload.read().decode("utf-8")
+                content = content.splitlines()
+                result = parse_transaction(request, content)
+                return HttpResponseRedirect('/transactions/upload', {'messages': result})
+            except Exception as err:
+                # return messages.error(request, )
+                print(type(err).__name__)
+                return HttpResponseRedirect('/transactions/upload', {'messages': messages.error(request, ('{} na importação').format(type(err).__name__))})
     else:
         form = UploadFileForm()
         return render(request, 'transactions/upload_CNAB.html', {'form': form})
 
-def cnab_upload_file(request, upload):
-    content = upload.read().decode("utf-8")
-    content = content.splitlines()
+def parse_transaction(request, content):
     counter = 0
     for line in content:
         try:
